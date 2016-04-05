@@ -6,20 +6,14 @@ package employeeScheduler.model;
 public class Shift {
     private DayTime startTime;
     private DayTime endTime;
-    private Integer requiredEmployeesNumber;
+    private Integer minEmployeesNumber;
+    private Integer maxEmployeesNumber;
 
-    public Shift(DayTime startTime, DayTime endTime, Integer requiredEmployeesNumber) {
+    public Shift(DayTime startTime, DayTime endTime, Integer minEmployeesNumber, Integer maxEmployeesNumber) {
         this.startTime = startTime;
         this.endTime = endTime;
-        this.requiredEmployeesNumber = requiredEmployeesNumber;
-    }
-
-    public Integer getRequiredEmployeesNumber() {
-        return requiredEmployeesNumber;
-    }
-
-    public void setRequiredEmployeesNumber(Integer requiredEmployeesNumber) {
-        this.requiredEmployeesNumber = requiredEmployeesNumber;
+        this.minEmployeesNumber = minEmployeesNumber;
+        this.maxEmployeesNumber = maxEmployeesNumber;
     }
 
     public DayTime getStartTime() {
@@ -38,4 +32,19 @@ public class Shift {
         this.endTime = endTime;
     }
 
+    public Integer getMinEmployeesNumber() {
+        return minEmployeesNumber;
+    }
+
+    public void setMinEmployeesNumber(Integer minEmployeesNumber) {
+        this.minEmployeesNumber = minEmployeesNumber;
+    }
+
+    public Integer getMaxEmployeesNumber() {
+        return maxEmployeesNumber;
+    }
+
+    public void setMaxEmployeesNumber(Integer maxEmployeesNumber) {
+        this.maxEmployeesNumber = maxEmployeesNumber;
+    }
 }
