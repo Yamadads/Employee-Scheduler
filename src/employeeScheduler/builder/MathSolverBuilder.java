@@ -1,4 +1,4 @@
-package builder;
+package employeeScheduler.builder;
 
 /**
  * Builder uses a math solver to create the final work schedule.

@@ -1,4 +1,4 @@
-package builder;
+package employeeScheduler.builder;
 
 /**
  * Builder creates random schedule which can be wrong.

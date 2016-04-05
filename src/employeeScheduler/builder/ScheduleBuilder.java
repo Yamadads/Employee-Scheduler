@@ -1,4 +1,4 @@
-package builder;
+package employeeScheduler.builder;
 
 /**
  * Interface of schedule builders

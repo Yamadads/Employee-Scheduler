@@ -1,4 +1,4 @@
-package model;
+package employeeScheduler.model;
 
 /**
  * Model representing the characteristics of schedule.

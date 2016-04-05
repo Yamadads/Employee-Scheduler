@@ -1,4 +1,4 @@
-package builder;
+package employeeScheduler.builder;
 
 /**
  * Builder uses an evolutionary algorithm to create the final work schedule.
