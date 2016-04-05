@@ -2,16 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ab30668d-2f55-4bee-9710-34397d8dd2e4" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/employeeScheduler/model/EmployeeSchedule.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/employeeScheduler/model/ResultingSchedule.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/builder/EvolutionaryBuilder.java" afterPath="$PROJECT_DIR$/src/employeeScheduler/builder/EvolutionaryBuilder.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/builder/GreedyBuilder.java" afterPath="$PROJECT_DIR$/src/employeeScheduler/builder/GreedyBuilder.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/builder/MathSolverBuilder.java" afterPath="$PROJECT_DIR$/src/employeeScheduler/builder/MathSolverBuilder.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/builder/RandomBuilder.java" afterPath="$PROJECT_DIR$/src/employeeScheduler/builder/RandomBuilder.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/builder/ScheduleBuilder.java" afterPath="$PROJECT_DIR$/src/employeeScheduler/builder/ScheduleBuilder.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/model/EmployeeModel.java" afterPath="$PROJECT_DIR$/src/employeeScheduler/model/EmployeeModel.java" />
-      <change type="MOVED" beforePath="$PROJECT_DIR$/src/model/ScheduleModel.java" afterPath="$PROJECT_DIR$/src/employeeScheduler/model/ScheduleModel.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/employeeScheduler/model/DayTime.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/employeeScheduler/model/EmployeePreferences.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/employeeScheduler/model/Preferences.java" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/employeeScheduler/model/Shift.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/employeeScheduler/model/EmployeeModel.java" afterPath="$PROJECT_DIR$/src/employeeScheduler/model/EmployeeModel.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/employeeScheduler/model/EmployeeSchedule.java" afterPath="$PROJECT_DIR$/src/employeeScheduler/model/EmployeeSchedule.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/employeeScheduler/model/ScheduleModel.java" afterPath="$PROJECT_DIR$/src/employeeScheduler/model/ScheduleModel.java" />
     </list>
     <ignored path="Employee-Scheduler.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -36,98 +34,63 @@
       <file leaf-file-name="EmployeeModel.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/employeeScheduler/model/EmployeeModel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+            <state relative-caret-position="187">
+              <caret line="11" column="33" selection-start-line="11" selection-start-column="33" selection-end-line="11" selection-end-column="33" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ScheduleModel.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="EmployeePreferences.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/employeeScheduler/model/EmployeePreferences.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="170">
+              <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+              <folding>
+                <element signature="e#262#263#0" expanded="true" />
+                <element signature="e#294#295#0" expanded="true" />
+                <element signature="e#345#346#0" expanded="true" />
+                <element signature="e#387#388#0" expanded="true" />
+                <element signature="e#426#427#0" expanded="true" />
+                <element signature="e#460#461#0" expanded="true" />
+                <element signature="e#515#516#0" expanded="true" />
+                <element signature="e#561#562#0" expanded="true" />
+                <element signature="e#603#604#0" expanded="true" />
+                <element signature="e#636#637#0" expanded="true" />
+                <element signature="e#693#694#0" expanded="true" />
+                <element signature="e#737#738#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ScheduleModel.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/employeeScheduler/model/ScheduleModel.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
-              <folding />
+            <state relative-caret-position="153">
+              <caret line="9" column="36" selection-start-line="9" selection-start-column="36" selection-end-line="9" selection-end-column="36" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ResultingSchedule.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/employeeScheduler/model/ResultingSchedule.java">
+      <file leaf-file-name="Shift.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/employeeScheduler/model/Shift.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="3" column="108" selection-start-line="3" selection-start-column="3" selection-end-line="3" selection-end-column="108" />
+            <state relative-caret-position="153">
+              <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="EmployeeSchedule.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="EmployeeSchedule.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/employeeScheduler/model/EmployeeSchedule.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="68">
-              <caret line="4" column="3" selection-start-line="4" selection-start-column="3" selection-end-line="4" selection-end-column="3" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Employee-Scheduler.iml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/Employee-Scheduler.iml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ScheduleBuilder.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/employeeScheduler/builder/ScheduleBuilder.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="GreedyBuilder.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/employeeScheduler/builder/GreedyBuilder.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RandomBuilder.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/employeeScheduler/builder/RandomBuilder.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="119">
-              <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="EvolutionaryBuilder.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/employeeScheduler/builder/EvolutionaryBuilder.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="85">
-              <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="MathSolverBuilder.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/employeeScheduler/builder/MathSolverBuilder.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="3" column="16" selection-start-line="3" selection-start-column="16" selection-end-line="3" selection-end-column="16" />
+            <state relative-caret-position="136">
+              <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -140,6 +103,7 @@
       <list>
         <option value="Interface" />
         <option value="Class" />
+        <option value="Enum" />
       </list>
     </option>
   </component>
@@ -166,7 +130,14 @@
         <option value="$PROJECT_DIR$/src/builder/ScheduleBuilder.java" />
         <option value="$PROJECT_DIR$/src/employeeScheduler/builder/RandomBuilder.java" />
         <option value="$PROJECT_DIR$/src/employeeScheduler/model/ResultingSchedule.java" />
+        <option value="$PROJECT_DIR$/src/employeeScheduler/model/Time.java" />
+        <option value="$PROJECT_DIR$/src/employeeScheduler/model/DayTime.java" />
+        <option value="$PROJECT_DIR$/src/employeeScheduler/model/Shift.java" />
+        <option value="$PROJECT_DIR$/src/employeeScheduler/model/Preferences.java" />
+        <option value="$PROJECT_DIR$/src/employeeScheduler/model/EmployeePreferences.java" />
         <option value="$PROJECT_DIR$/src/employeeScheduler/model/EmployeeSchedule.java" />
+        <option value="$PROJECT_DIR$/src/employeeScheduler/model/EmployeeModel.java" />
+        <option value="$PROJECT_DIR$/src/employeeScheduler/model/ScheduleModel.java" />
       </list>
     </option>
   </component>
@@ -542,6 +513,7 @@
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24963397" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32868218" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -552,7 +524,6 @@
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -584,7 +555,9 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
           <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
-          <folding />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -668,14 +641,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/employeeScheduler/builder/ScheduleBuilder.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/employeeScheduler/builder/RandomBuilder.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="119">
@@ -684,19 +649,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/employeeScheduler/model/ScheduleModel.java">
+    <entry file="file://$PROJECT_DIR$/src/employeeScheduler/model/Preferences.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
+        <state relative-caret-position="136">
+          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/employeeScheduler/model/EmployeeModel.java">
+    <entry file="file://$PROJECT_DIR$/src/employeeScheduler/model/DayTime.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="85">
-          <caret line="5" column="13" selection-start-line="5" selection-start-column="13" selection-end-line="5" selection-end-column="13" />
-          <folding />
+        <state relative-caret-position="17">
+          <caret line="1" column="0" selection-start-line="1" selection-start-column="0" selection-end-line="1" selection-end-column="0" />
+          <folding>
+            <element signature="e#567#568#0" expanded="true" />
+            <element signature="e#594#595#0" expanded="true" />
+            <element signature="e#835#836#0" expanded="true" />
+            <element signature="e#864#865#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -708,11 +678,66 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/employeeScheduler/model/EmployeePreferences.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="0" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+          <folding>
+            <element signature="e#262#263#0" expanded="true" />
+            <element signature="e#294#295#0" expanded="true" />
+            <element signature="e#345#346#0" expanded="true" />
+            <element signature="e#387#388#0" expanded="true" />
+            <element signature="e#426#427#0" expanded="true" />
+            <element signature="e#460#461#0" expanded="true" />
+            <element signature="e#515#516#0" expanded="true" />
+            <element signature="e#561#562#0" expanded="true" />
+            <element signature="e#603#604#0" expanded="true" />
+            <element signature="e#636#637#0" expanded="true" />
+            <element signature="e#693#694#0" expanded="true" />
+            <element signature="e#737#738#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/employeeScheduler/builder/ScheduleBuilder.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="119">
+          <caret line="7" column="0" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/employeeScheduler/model/EmployeeSchedule.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="4" column="3" selection-start-line="4" selection-start-column="3" selection-end-line="4" selection-end-column="3" />
+        <state relative-caret-position="136">
+          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/employeeScheduler/model/EmployeeModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="187">
+          <caret line="11" column="33" selection-start-line="11" selection-start-column="33" selection-end-line="11" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/employeeScheduler/model/Shift.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="0" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/employeeScheduler/model/ScheduleModel.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="9" column="36" selection-start-line="9" selection-start-column="36" selection-end-line="9" selection-end-column="36" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
