@@ -12,6 +12,7 @@ public class EmployeeModel {
     private Integer maxWorkingDaysNumber;
     private Integer minDayBreakTime;
     private Integer minWeekBreakTime;
+    private Integer currentOvertime;
 
     public ArrayList<EmployeePreferences> getPreferences() {
         return preferences;
@@ -59,5 +60,13 @@ public class EmployeeModel {
 
     public void setMinWeekBreakTime(Integer minWeekBreakTime) {
         this.minWeekBreakTime = minWeekBreakTime;
+    }
+
+    public Integer getCurrentOvertime() {
+        return currentOvertime;
+    }
+
+    public void setCurrentOvertime(Integer currentOvertime) {
+        this.currentOvertime = currentOvertime;
     }
 }
