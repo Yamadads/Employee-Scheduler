@@ -7,7 +7,7 @@ public class DayTime {
     private int hour;
     private int minute;
 
-    DayTime(int hour, int minute) {
+    public DayTime(int hour, int minute) {
         if (hour > 23) {
             this.hour = 23;
         } else if (hour < 0) {
@@ -51,5 +51,18 @@ public class DayTime {
         } else {
             this.minute = minute;
         }
+    }
+
+    public int getDifferenceInMinutes(DayTime startTime) {
+        int endMinutes = hour*60+minute;
+        int startMinutes= startTime.hour*60+startTime.minute;
+
+        if (endMinutes>startMinutes){
+            return endMinutes-startMinutes;
+        }
+        if (startMinutes>endMinutes){
+            return 1440-startMinutes+endMinutes;
+        }
+        return 0;
     }
 }

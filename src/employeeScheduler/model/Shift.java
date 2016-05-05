@@ -47,4 +47,8 @@ public class Shift {
     public void setMaxEmployeesNumber(Integer maxEmployeesNumber) {
         this.maxEmployeesNumber = maxEmployeesNumber;
     }
+
+    public Integer getShiftTime(){
+        return endTime.getDifferenceInMinutes(startTime);
+    }
 }

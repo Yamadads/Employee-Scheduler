@@ -4,10 +4,16 @@ package employeeScheduler.model;
  * Employee preferences about specific work shift
  */
 
-public class EmployeePreferences{
+public class EmployeePreferences {
     private Integer dayNumber;
     private Integer shiftNumber;
     private Preferences preference;
+
+    public EmployeePreferences(Integer dayNumber, Integer shiftNumber, Preferences preference) {
+        this.dayNumber = dayNumber;
+        this.shiftNumber = shiftNumber;
+        this.preference = preference;
+    }
 
     public Integer getDayNumber() {
         return dayNumber;
