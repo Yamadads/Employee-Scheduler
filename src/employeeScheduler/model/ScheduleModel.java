@@ -9,13 +9,11 @@ import java.util.ArrayList;
 public class ScheduleModel {
     private ArrayList<Shift> shifts;
     private ArrayList<EmployeeModel> employeePreferences;
-    private DayOfWeek firstDayOfPeriod;
     private Integer scheduleDaysNumber;
 
-    public ScheduleModel(ArrayList<Shift> shifts, ArrayList<EmployeeModel> employeePreferences, DayOfWeek firstDayOfPeriod, Integer scheduleDaysNumber) {
+    public ScheduleModel(ArrayList<Shift> shifts, ArrayList<EmployeeModel> employeePreferences, Integer scheduleDaysNumber) {
         this.shifts = shifts;
         this.employeePreferences = employeePreferences;
-        this.firstDayOfPeriod = firstDayOfPeriod;
         this.scheduleDaysNumber = scheduleDaysNumber;
     }
 
@@ -33,14 +31,6 @@ public class ScheduleModel {
 
     public void setEmployeePreferences(ArrayList<EmployeeModel> employeePreferences) {
         this.employeePreferences = employeePreferences;
-    }
-
-    public DayOfWeek getFirstDayOfPeriod() {
-        return firstDayOfPeriod;
-    }
-
-    public void setFirstDayOfPeriod(DayOfWeek firstDayOfPeriod) {
-        this.firstDayOfPeriod = firstDayOfPeriod;
     }
 
     public Integer getScheduleDaysNumber() {

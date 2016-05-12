@@ -1,0 +1,10 @@
+scheduleDaysNumber;;;;;;;;;;;;;;
+10;;;;;;;;;;;;;;
+shift;startTime;endTime;minEmployees;maxEmployees;;;;;;;;;;
+0;07:00;19:00;1;3;;;;;;;;;;
+1;19:00;07:00;1;3;;;;;;;;;;
+employee;dailyWorkTime;minWorkingDays;maxWorkingDays;targetWorkingDays;minDayBreakTime;minWeekBreakTime;currentOvertime;acceptanceLevel;preferences;;;;;
+0;480;5;9;6;660;2100;0;1.0;4;1;PREFERRED;5;0;UNWANTED;0;0;PREFERRED;1;0;PREFERRED;2;0;PREFERRED
+1;480;5;9;7;660;2100;0;0.4;0;0;UNWANTED;1;0;UNWANTED
+2;480;5;9;8;660;2100;0;0.4;6;1;UNWANTED;7;0;UNWANTED
+3;480;5;9;6;660;2100;0;0.4;1;0;UNWANTED;2;1;UNWANTED

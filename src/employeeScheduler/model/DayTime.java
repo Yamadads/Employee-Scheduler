@@ -65,4 +65,8 @@ public class DayTime {
         }
         return 0;
     }
+
+    public int getTimeInMinutes(){
+        return hour*60+minute;
+    }
 }

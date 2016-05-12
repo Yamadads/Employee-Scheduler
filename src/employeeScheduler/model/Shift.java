@@ -1,5 +1,7 @@
 package employeeScheduler.model;
 
+import org.jacop.constraints.In;
+
 /**
  * Simple class with information about specific work shift.
  */
@@ -50,5 +52,14 @@ public class Shift {
 
     public Integer getShiftTime(){
         return endTime.getDifferenceInMinutes(startTime);
+    }
+
+    public Boolean isNightShift(){
+        Integer startTimeMinutes = startTime.getHour()*60+startTime.getMinute();
+        Integer endTimeMinutes = endTime.getHour()*60+endTime.getMinute();
+        if (endTimeMinutes<startTimeMinutes){
+            return true;
+        }
+        return false;
     }
 }

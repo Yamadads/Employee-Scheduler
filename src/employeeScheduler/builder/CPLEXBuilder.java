@@ -5,15 +5,17 @@ import employeeScheduler.model.*;
 import ilog.concert.*;
 import ilog.cplex.*;
 
+import java.util.Map;
+
 
 /**
- * Created by Karolina on 2016-04-27.
+ * Builder uses not free math solver CPLEX. It is not included in this lib.
  */
 public class CPLEXBuilder implements ScheduleBuilder {
     private ResultingSchedule resultingSchedule;
-    private EmployeeSchedule employeeSchedule;
     private ScheduleModel model;
 
+    //build function
     public void buildSchedule(ScheduleModel model) {
         this.model = model;
         int daysNumber = model.getScheduleDaysNumber();
@@ -39,60 +41,31 @@ public class CPLEXBuilder implements ScheduleBuilder {
             minimizeFunction(overTime, cplex, x);
 
             //-----------------constraints--------------------
-            auxiliaryVariableExpr(overTime,cplex);
-            minMaxEmployeesInShift(cplex, x);
-            oneEmployeeInDay(cplex, x);
-            employeesHardPreferences(cplex, x);
+            auxiliaryVariableCons(overTime, cplex);
+            minMaxEmployeesInShiftCons(cplex, x);
+            oneEmployeeInDayCons(cplex, x);
+            minDayBreakTimeCons(cplex, x);
+            employeesHardPreferencesCons(cplex, x);
+
+            /*cplex.or();
+            IloOr weekBreak = new IloOr();*/
 
             //--------------------result----------------------
-            returnResult(overTime,cplex,x);
+            returnResult(overTime, cplex, x);
 
         } catch (IloException exc) {
             exc.printStackTrace();
         }
     }
 
-    private void auxiliaryVariableExpr(IloNumVar overTime, IloCplex cplex) throws IloException {
-        IloLinearNumExpr overTimeExpr = cplex.linearNumExpr();
-        overTimeExpr.addTerm(1.0, overTime);
-        cplex.addGe(overTimeExpr, 1.0);
-    }
-
-    private void returnResult(IloNumVar overTime, IloCplex cplex, IloNumVar[][][] x) throws IloException {
-        int employeesNumber = model.getEmployeePreferences().size();
-        int daysNumber = model.getScheduleDaysNumber();
-        int shiftsNumber = model.getShifts().size();
-        if (cplex.solve()) {
-
-            resultingSchedule = new ResultingSchedule(daysNumber, shiftsNumber);
-            cplex.output().println("temp" + cplex.getValue(overTime));
-            cplex.output().println("Solution status = " + cplex.getStatus());
-            cplex.output().println("Solution value = " + cplex.getObjValue());
-            for (int i = 0; i < daysNumber; i++) {
-                //cplex.output().println("Day :" + i);
-                for (int j = 0; j < shiftsNumber; j++) {
-                    //cplex.output().println("Shift :" + j);
-                    double[] val = cplex.getValues(x[i][j]);
-                    for (int k = 0; k < employeesNumber; k++) {
-                        if (val[k] == 1.0) {
-                            resultingSchedule.addEmployee(i, j, k);
-                        }
-                    }
-                }
-            }
-        } else {
-            cplex.output().println("Do not find solution");
-        }
-        cplex.end();
-    }
-
+    //target specify
     private void minimizeFunction(IloNumVar overTime, IloCplex cplex, IloNumVar[][][] x) throws IloException {
         int employeesNumber = model.getEmployeePreferences().size();
 
         IloLinearNumExpr[] minimizeObjects = new IloLinearNumExpr[employeesNumber * 3];
 
-        numberWorkingDays(minimizeObjects, overTime, cplex, x);
-        employeeSoftPreferences(minimizeObjects, overTime, cplex, x);
+        numberWorkingDaysCons(minimizeObjects, overTime, cplex, x);
+        employeeSoftPreferencesCons(minimizeObjects, overTime, cplex, x);
 
         IloNumExpr[] minimizeObjectsAbs = new IloNumExpr[employeesNumber * 3];
         for (int i = 0; i < employeesNumber * 3; i++) {
@@ -101,7 +74,8 @@ public class CPLEXBuilder implements ScheduleBuilder {
         cplex.addMinimize(cplex.max(minimizeObjectsAbs));
     }
 
-    private void numberWorkingDays(IloLinearNumExpr[] minimizeObjects, IloNumVar overTime, IloCplex cplex, IloNumVar[][][] x) throws IloException {
+    //Constraints
+    private void numberWorkingDaysCons(IloLinearNumExpr[] minimizeObjects, IloNumVar overTime, IloCplex cplex, IloNumVar[][][] x) throws IloException {
         int employeesNumber = model.getEmployeePreferences().size();
         int daysNumber = model.getScheduleDaysNumber();
         int shiftsNumber = model.getShifts().size();
@@ -137,11 +111,10 @@ public class CPLEXBuilder implements ScheduleBuilder {
         }
     }
 
-    private void employeeSoftPreferences(IloLinearNumExpr[] minimizeObjects, IloNumVar overTime, IloCplex cplex, IloNumVar[][][] x) throws IloException {
+    private void employeeSoftPreferencesCons(IloLinearNumExpr[] minimizeObjects, IloNumVar overTime, IloCplex cplex, IloNumVar[][][] x) throws IloException {
         int employeesNumber = model.getEmployeePreferences().size();
         for (int emp = 0; emp < employeesNumber; emp++) {
-            //Employee Preferences Acceptance Level
-            Double empAccPref = model.getEmployeePreferences().get(emp).getPreferencesAcceptanceLevel().getValue();
+            Double empAccPref = model.getEmployeePreferences().get(emp).getPreferencesAcceptanceLevel();
             double requiredNumber = 0.0;
             minimizeObjects[emp + employeesNumber] = cplex.linearNumExpr();
             minimizeObjects[emp + 2 * employeesNumber] = cplex.linearNumExpr();
@@ -149,18 +122,18 @@ public class CPLEXBuilder implements ScheduleBuilder {
                 EmployeePreferences pref = model.getEmployeePreferences().get(emp).getPreferences().get(i);
                 Double shiftTime = model.getShifts().get(pref.getShiftNumber()).getShiftTime().doubleValue();
                 if (pref.getPreference() == Preferences.PREFERRED) {
-                    requiredNumber -= 1.0;
+                    requiredNumber -= shiftTime * empAccPref;
                     minimizeObjects[emp + employeesNumber].addTerm(empAccPref * shiftTime, x[pref.getDayNumber()][pref.getShiftNumber()][emp]);
                 }
                 if (pref.getPreference() == Preferences.UNWANTED) {
                     minimizeObjects[emp + 2 * employeesNumber].addTerm(empAccPref * shiftTime, x[pref.getDayNumber()][pref.getShiftNumber()][emp]);
                 }
             }
-            minimizeObjects[emp + employeesNumber].addTerm(requiredNumber * empAccPref, overTime);
+            minimizeObjects[emp + employeesNumber].addTerm(requiredNumber, overTime);
         }
     }
 
-    private void minMaxEmployeesInShift(IloCplex cplex, IloNumVar[][][] x) throws IloException {
+    private void minMaxEmployeesInShiftCons(IloCplex cplex, IloNumVar[][][] x) throws IloException {
         int daysNumber = model.getScheduleDaysNumber();
         int shiftsNumber = model.getShifts().size();
         int employeesNumber = model.getEmployeePreferences().size();
@@ -183,7 +156,7 @@ public class CPLEXBuilder implements ScheduleBuilder {
         }
     }
 
-    private void oneEmployeeInDay(IloCplex cplex, IloNumVar[][][] x) throws IloException {
+    private void oneEmployeeInDayCons(IloCplex cplex, IloNumVar[][][] x) throws IloException {
         int daysNumber = model.getScheduleDaysNumber();
         int shiftsNumber = model.getShifts().size();
         int employeesNumber = model.getEmployeePreferences().size();
@@ -199,7 +172,7 @@ public class CPLEXBuilder implements ScheduleBuilder {
         }
     }
 
-    private void employeesHardPreferences(IloCplex cplex, IloNumVar[][][] x) throws IloException {
+    private void employeesHardPreferencesCons(IloCplex cplex, IloNumVar[][][] x) throws IloException {
         int employeesNumber = model.getEmployeePreferences().size();
         IloLinearNumExpr preferencesRequiredExpr = cplex.linearNumExpr();
         IloLinearNumExpr preferencesForbiddenExpr = cplex.linearNumExpr();
@@ -224,11 +197,133 @@ public class CPLEXBuilder implements ScheduleBuilder {
         }
     }
 
+    private void minDayBreakTimeCons(IloCplex cplex, IloNumVar[][][] x) throws IloException {
+        int employeesNumber = model.getEmployeePreferences().size();
+        for (int emp = 0; emp < employeesNumber; emp++) {
+            Integer minBreakTime = model.getEmployeePreferences().get(emp).getMinDayBreakTime();
+            for (int i = 0; i < model.getShifts().size(); i++) {
+                for (int j = 0; j < model.getShifts().size(); j++) {
+                    if (j == i) continue;
+                    Shift outerShift = model.getShifts().get(i);
+                    Integer outerShiftEndTimeMinutes = model.getShifts().get(i).getEndTime().getTimeInMinutes();
+                    Integer innerShiftStartTimeMinutes = model.getShifts().get(j).getStartTime().getTimeInMinutes();
+                    if (outerShift.isNightShift()) {
+                        if ((innerShiftStartTimeMinutes - outerShiftEndTimeMinutes) < minBreakTime) {
+                            minDayBreakTimeSetConstraint(cplex, x, i, j);
+                        }
+                    } else {
+                        if (((1440 - outerShiftEndTimeMinutes) + innerShiftStartTimeMinutes) < minBreakTime) {
+                            minDayBreakTimeSetConstraint(cplex, x, i, j);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private void minDayBreakTimeSetConstraint(IloCplex cplex, IloNumVar[][][] x, Integer outerShiftNr, Integer innerShiftNr) throws IloException {
+        int employeesNumber = model.getEmployeePreferences().size();
+        int daysNumber = model.getScheduleDaysNumber();
+
+        IloLinearNumExpr[][] dayBreakTimeExpr = new IloLinearNumExpr[daysNumber - 1][employeesNumber];
+
+        for (int day = 0; day < daysNumber - 1; day++) {
+            for (int emp = 0; emp < employeesNumber; emp++) {
+                dayBreakTimeExpr[day][emp] = cplex.linearNumExpr();
+                dayBreakTimeExpr[day][emp].addTerm(1.0, x[day][outerShiftNr][emp]);
+                dayBreakTimeExpr[day][emp].addTerm(1.0, x[day + 1][innerShiftNr][emp]);
+                cplex.addLe(dayBreakTimeExpr[day][emp], 1.0);
+            }
+        }
+    }
+
+    private void auxiliaryVariableCons(IloNumVar overTime, IloCplex cplex) throws IloException {
+        IloLinearNumExpr overTimeExpr = cplex.linearNumExpr();
+        overTimeExpr.addTerm(1.0, overTime);
+        cplex.addGe(overTimeExpr, 1.0);
+    }
+
+    //Result
     public ResultingSchedule getResultingSchedule() {
         return resultingSchedule;
     }
 
-    public EmployeeSchedule getEmployeeSchedule() {
-        return employeeSchedule;
+    private void returnResult(IloNumVar overTime, IloCplex cplex, IloNumVar[][][] x) throws IloException {
+        int employeesNumber = model.getEmployeePreferences().size();
+        int daysNumber = model.getScheduleDaysNumber();
+        int shiftsNumber = model.getShifts().size();
+        if (cplex.solve()) {
+            fillResultingSchedule(cplex, x, daysNumber, shiftsNumber, employeesNumber);
+            fillEmployeesOvertime();
+            fillEmployeeFulfilledPreferences();
+            maxEmployeesPerShift();
+        } else {
+            cplex.output().println("Do not find solution");
+            resultingSchedule = new ResultingSchedule(0, 0, 0);
+        }
+        cplex.end();
     }
+
+    private void fillEmployeeFulfilledPreferences() {
+        int employeesNumber = model.getEmployeePreferences().size();
+        for (int emp = 0; emp < employeesNumber; emp++) {
+            Double fulfilledPreferences = 0.0;
+            Double unfulfilled = 0.0;
+            Integer preferencesNumber = model.getEmployeePreferences().get(emp).getPreferences().size();
+            for (int i = 0; i < preferencesNumber; i++) {
+                Integer day = model.getEmployeePreferences().get(emp).getPreferences().get(i).getDayNumber();
+                Integer shift = model.getEmployeePreferences().get(emp).getPreferences().get(i).getShiftNumber();
+                Preferences preference = model.getEmployeePreferences().get(emp).getPreferences().get(i).getPreference();
+
+                if (preference == Preferences.PREFERRED) {
+                    if (!resultingSchedule.getEmployeesSchedules().get(emp).isOnShift(day, shift)) {
+                        unfulfilled += 1.0;
+                    }
+                }
+                if (preference == Preferences.UNWANTED) {
+                    if (resultingSchedule.getEmployeesSchedules().get(emp).isOnShift(day, shift)) {
+                        unfulfilled += 1.0;
+                    }
+                }
+            }
+            fulfilledPreferences = ((preferencesNumber.doubleValue() - unfulfilled) / preferencesNumber.doubleValue());
+            resultingSchedule.getEmployeesSchedules().get(emp).setFulfilledPreferences(fulfilledPreferences);
+        }
+    }
+
+    private void fillEmployeesOvertime() {
+        int employeesNumber = model.getEmployeePreferences().size();
+        for (int emp = 0; emp < employeesNumber; emp++) {
+            Integer workTimeTemp = 0;
+            for (Integer value : resultingSchedule.getEmployeesSchedules().get(emp).getResult().values()) {
+                workTimeTemp += model.getShifts().get(value).getShiftTime();
+            }
+            resultingSchedule.getEmployeesSchedules().get(emp).setWorkTime(workTimeTemp);
+        }
+    }
+
+    private void fillResultingSchedule(IloCplex cplex, IloNumVar[][][] x, Integer daysNumber, Integer shiftsNumber, Integer employeesNumber) throws IloException {
+        resultingSchedule = new ResultingSchedule(daysNumber, shiftsNumber, employeesNumber);
+        cplex.output().println("Solution status = " + cplex.getStatus());
+        cplex.output().println("Solution value = " + cplex.getObjValue());
+        for (int i = 0; i < daysNumber; i++) {
+            for (int j = 0; j < shiftsNumber; j++) {
+                double[] val = cplex.getValues(x[i][j]);
+                for (int k = 0; k < employeesNumber; k++) {
+                    if (val[k] == 1.0) {
+                        resultingSchedule.addEmployee(i, j, k);
+                    }
+                }
+            }
+        }
+    }
+
+    private void maxEmployeesPerShift() {
+        for (int i = 0; i < model.getShifts().size(); i++) {
+            resultingSchedule.addShiftMaxEmployee(i, model.getShifts().get(i).getMaxEmployeesNumber());
+        }
+    }
+
+
 }
+

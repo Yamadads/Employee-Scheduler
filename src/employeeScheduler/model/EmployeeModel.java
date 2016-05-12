@@ -14,9 +14,9 @@ public class EmployeeModel {
     private Integer minDayBreakTime;
     private Integer minWeekBreakTime;
     private Integer currentOvertime;
-    private AcceptanceLevel preferencesAcceptanceLevel;
+    private Double preferencesAcceptanceLevel;
 
-    public EmployeeModel(ArrayList<EmployeePreferences> preferences, Integer dailyWorkTime, Integer minWorkingDaysNumber, Integer maxWorkingDaysNumber, Integer targetWorkingDaysNumber, Integer minDayBreakTime, Integer minWeekBreakTime, Integer currentOvertime, AcceptanceLevel preferencesAcceptanceLevel) {
+    public EmployeeModel(ArrayList<EmployeePreferences> preferences, Integer dailyWorkTime, Integer minWorkingDaysNumber, Integer maxWorkingDaysNumber, Integer targetWorkingDaysNumber, Integer minDayBreakTime, Integer minWeekBreakTime, Integer currentOvertime, Double preferencesAcceptanceLevel) {
         this.preferences = preferences;
         this.dailyWorkTime = dailyWorkTime;
         this.minWorkingDaysNumber = minWorkingDaysNumber;
@@ -92,11 +92,11 @@ public class EmployeeModel {
         this.targetWorkingDaysNumber = targetWorkingDaysNumber;
     }
 
-    public AcceptanceLevel getPreferencesAcceptanceLevel() {
+    public Double getPreferencesAcceptanceLevel() {
         return preferencesAcceptanceLevel;
     }
 
-    public void setPreferencesAcceptanceLevel(AcceptanceLevel preferencesAcceptanceLevel) {
+    public void setPreferencesAcceptanceLevel(Double preferencesAcceptanceLevel) {
         this.preferencesAcceptanceLevel = preferencesAcceptanceLevel;
     }
 }

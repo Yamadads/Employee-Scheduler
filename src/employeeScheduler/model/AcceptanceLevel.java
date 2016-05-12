@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- *
+ * Enum helping to use specific acceptance Level
  */
 public enum AcceptanceLevel {
     VERY_LOW(0.01),

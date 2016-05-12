@@ -8,7 +8,8 @@ import org.jacop.search.*;
 import java.util.ArrayList;
 
 /**
- * Builder uses a math solver to create the final work schedule.
+ * Builder uses an open source math solver to create the final work schedule.
+ * TO DO in the future or not :)
  */
 public class MathSolverBuilder implements ScheduleBuilder{
 
