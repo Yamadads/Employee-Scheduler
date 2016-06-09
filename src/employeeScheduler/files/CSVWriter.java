@@ -13,13 +13,13 @@ public class CSVWriter {
         try
         {
             FileWriter writer = new FileWriter(path);
-
+            String delimiter = ",";
             //headers
-            writer.append("shift");
-            writer.append(';');
+            writer.append("shift\\day");
+            writer.append(delimiter);
             for (int i=0;i<resultingSchedule.getDays();i++){
                 writer.append(Integer.toString(i));
-                writer.append(";");
+                writer.append(delimiter);
             }
             writer.append("\n");
 
@@ -28,12 +28,12 @@ public class CSVWriter {
                 Integer maxEmployee = resultingSchedule.getMaxEmployeesPerShift(shift);
                 for (int i=0;i<maxEmployee;i++){
                     writer.append(Integer.toString(shift));
-                    writer.append(";");
+                    writer.append(delimiter);
                     for (int day=0;day<resultingSchedule.getDays();day++){
                         if (resultingSchedule.getEmployeeListOnShift(day,shift).size()>=i+1){
                             writer.append(Integer.toString(resultingSchedule.getEmployeeListOnShift(day,shift).get(i).intValue()));
                         }
-                        writer.append(";");
+                        writer.append(delimiter);
                     }
                     writer.append('\n');
                 }

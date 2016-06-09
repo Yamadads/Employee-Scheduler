@@ -106,7 +106,7 @@ public class CSVReader {
         Scanner scanner = new Scanner(new File(path));
         ArrayList<ArrayList<String>> dataFromFile = new ArrayList<>();
         dataFromFile.add(new ArrayList<>());
-        final String DELIMITER = ";";
+        final String DELIMITER = ",";
 
         while (scanner.hasNextLine())
         {

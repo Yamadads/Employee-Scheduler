@@ -5,6 +5,9 @@ import employeeScheduler.model.*;
 import ilog.concert.*;
 import ilog.cplex.*;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -25,7 +28,7 @@ public class CPLEXBuilder implements ScheduleBuilder {
         try {
             //------------------model init--------------------
             IloCplex cplex = new IloCplex();
-
+            cplex.setParam(IloCplex.DoubleParam.TiLim, 30);
             //-------------------variables--------------------
             //simple representation of result schedule
             IloNumVar[][][] x = new IloNumVar[daysNumber][shiftsNumber][employeesNumber];
@@ -46,15 +49,19 @@ public class CPLEXBuilder implements ScheduleBuilder {
             oneEmployeeInDayCons(cplex, x);
             minDayBreakTimeCons(cplex, x);
             employeesHardPreferencesCons(cplex, x);
-
-            /*cplex.or();
-            IloOr weekBreak = new IloOr();*/
+            minWeekBreakTimeCons(cplex, x);
 
             //--------------------result----------------------
             returnResult(overTime, cplex, x);
 
         } catch (IloException exc) {
             exc.printStackTrace();
+            System.out.println("Problem with cplex. Press \"ENTER\" to continue...");
+            try{
+                System.in.read();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
         }
     }
 
@@ -75,6 +82,90 @@ public class CPLEXBuilder implements ScheduleBuilder {
     }
 
     //Constraints
+    private void minWeekBreakTimeCons(IloCplex cplex, IloNumVar[][][] x) throws IloException {
+        IloOr[] orConstraint = new IloOr[model.getEmployeePreferences().size()];
+        ArrayList<IloConstraint[]> minWeekBreak = new ArrayList<>();
+        ArrayList<IloLinearNumExpr[]> breakTime = new ArrayList<>();
+        for (int emp = 0; emp < model.getEmployeePreferences().size(); emp++) {
+            //prepare set of shifts to constraint
+            ArrayList<ArrayList<ArrayList<Integer>>> toConstraint = getListOfShiftsToBreakTime(emp);
+
+            Integer maxDay = 0;
+            for (int i = 0; i < toConstraint.size(); i++) {
+                if (maxDay < toConstraint.get(i).size()) {
+                    maxDay = toConstraint.get(i).size();
+                }
+            }
+            for (int firstDay = 0; firstDay < model.getScheduleDaysNumber(); firstDay += 7) {
+                if (firstDay+4>=model.getScheduleDaysNumber()){
+                    break;
+                }
+                minWeekBreak.add(new IloConstraint[(7 - maxDay) * toConstraint.size()]);
+                breakTime.add(new IloLinearNumExpr[(7 - maxDay) * toConstraint.size()]);
+                int constraintNumber = 0;
+                for (int day = firstDay; (day < firstDay + 7 - maxDay) && (day < model.getScheduleDaysNumber() - maxDay); day++) {
+                    for (int shift = 0; shift < toConstraint.size(); shift++) {
+                        //and
+                        breakTime.get(breakTime.size()-1)[constraintNumber] = cplex.linearNumExpr();
+                        for (int i = 0; i < model.getShifts().size(); i++) {
+                            if (i != shift) {
+                                breakTime.get(breakTime.size()-1)[constraintNumber].addTerm(1.0, x[day][i][emp]);
+                            }
+                        }
+                        for (int andDay = 0; andDay < toConstraint.get(shift).size(); andDay++) {
+                            for (int andShift = 0; andShift < toConstraint.get(shift).get(andDay).size(); andShift++) {
+                                breakTime.get(breakTime.size()-1)[constraintNumber].addTerm(1.0, x[andDay + day + 1][toConstraint.get(shift).get(andDay).get(andShift)][emp]);
+                            }
+                        }
+                        minWeekBreak.get(minWeekBreak.size()-1)[constraintNumber] = cplex.le(breakTime.get(breakTime.size()-1)[constraintNumber], 0.0);
+                        constraintNumber++;
+                        //and
+                    }
+                }
+                orConstraint[emp] = cplex.or();
+                orConstraint[emp].add(minWeekBreak.get(minWeekBreak.size()-1));
+                cplex.add(orConstraint[emp]);
+            }
+        }
+    }
+
+    private ArrayList<ArrayList<ArrayList<Integer>>> getListOfShiftsToBreakTime(Integer employeeNumber) {
+        ArrayList<ArrayList<ArrayList<Integer>>> toConstraint = new ArrayList<>();
+        for (int i = 0; i < model.getShifts().size(); i++) {
+            toConstraint.add(new ArrayList<>());
+            for (int d = 0; d < 7; d++) {
+                toConstraint.get(i).add(new ArrayList<>());
+                Boolean end = true;
+                for (int j = 0; j < model.getShifts().size(); j++) {
+                    if (model.getShifts().get(i).isNightShift()) {
+                        if ((model.getShifts().get(j).getStartTime().getTimeInMinutes()
+                                -
+                                model.getShifts().get(i).getEndTime().getTimeInMinutes()
+                                +
+                                1440 * d
+                        ) < model.getEmployeePreferences().get(employeeNumber).getMinWeekBreakTime()) {
+                            end = false;
+                            toConstraint.get(i).get(d).add(j);
+                        }
+                    } else {
+                        if ((model.getShifts().get(j).getStartTime().getTimeInMinutes()
+                                +
+                                1440 - model.getShifts().get(i).getEndTime().getTimeInMinutes()
+                                + 1440 * d
+                        ) < model.getEmployeePreferences().get(employeeNumber).getMinWeekBreakTime()) {
+                            end = false;
+                            toConstraint.get(i).get(d).add(j);
+                        }
+                    }
+                }
+                if (end) {
+                    break;
+                }
+            }
+        }
+        return toConstraint;
+    }
+
     private void numberWorkingDaysCons(IloLinearNumExpr[] minimizeObjects, IloNumVar overTime, IloCplex cplex, IloNumVar[][][] x) throws IloException {
         int employeesNumber = model.getEmployeePreferences().size();
         int daysNumber = model.getScheduleDaysNumber();
