@@ -1,0 +1,156 @@
+\documentclass{beamer}
+
+\usepackage[OT4]{polski}
+\usepackage[utf8]{inputenc} 
+\frenchspacing
+\usetheme{Frankfurt}
+
+\title{Automatyczne generowanie grafiku pracy}
+\author{Sebastian Pawlak}
+\institute[Politechnika Poznańska]
+{
+  Informatyka w Medycynie\\
+  Wydział Informatyki Politechniki Poznańskiej
+ }
+
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}{Spis prezentacji}
+  \tableofcontents
+\end{frame}
+
+\section{Opis problemu}
+
+\begin{frame}{Opis problemu}
+  \begin{itemize}
+  \item{Tworzenie grafiku pracy}
+  \item{Wielu pracowników}
+  \item{Różne zmiany}
+  \item{Konieczność rozliczania czasu pracy co do minuty}
+  \item{Długi okres czasu}
+  \item{Liczne obostrzenia prawne}
+  \item{Trudne do pogodzenia wymagania pracowników}
+  \item{Mozolne ręczne układanie całości}
+  \end{itemize}
+\end{frame}
+
+\section{Zapis matematyczny}
+
+\begin{frame}{Zapis matematyczny}
+  \begin{math} 
+  min(max(((\sum_{d}^{ }\sum_{z}^{ }a_{dz0})-t_{0}),\\((\sum_{d}^{ }\sum_{z}^{ }a_{dz1})-t_{1}), ... , ((\sum_{d}^{ }\sum_{z}^{ }a_{dzp})-t_{p})))
+  \end{math}
+  \\ \\Przy ograniczeniach:\\
+  \begin{math} 
+  \forall_{p}(\sum_{d}^{ }\sum_{z}^{ }a_{dzp})\geqslant mindays
+  \end{math}
+  \\
+  \begin{math} 
+  \forall_{p}(\sum_{d}^{ }\sum_{z}^{ }a_{dzp})\leqslant maxdays
+  \end{math}
+  \\
+  \begin{math} 
+  \forall_{d}(\sum_{z}^{ }\sum_{p}^{ }a_{dzp})\geqslant minemployees
+  \end{math}
+  \\
+  \begin{math} 
+  \forall_{d}(\sum_{z}^{ }\sum_{p}^{ }a_{dzp})\leqslant maxemployees
+  \end{math}
+  \\
+  \begin{math} 
+  \forall_{d}\forall_{p}(\sum_{z}^{ }a_{dzp})\leqslant 1
+  \end{math}
+\end{frame}
+
+\section{Wybrane technologie}
+
+\begin{frame}{Wybrane Technologie}
+
+\begin{block}{Java}
+Uniwersalny język programowania. Umożliwia wdrożenie na wielu platformach.
+\end{block}
+\begin{block}{CPLEX}
+Pakiet do tworzenia modeli optymalizacyjnych na potrzeby programowania matematycznego i programowania z ograniczeniami
+\end{block}
+\begin{block}{CSV}
+Prosty format pliku, łatwy do generowania i wczytywania.
+\end{block}
+\begin{block}{Excel}
+Znane użytkownikowi środowisko.
+\end{block}
+
+\end{frame}
+
+\section{CPLEX}
+
+\begin{frame}{CPLEX}
+\begin{itemize}
+\item{Oprogramowanie komercyjne wydawane przez IBM}
+\item{Ograniczona wersja edukacyjna}
+\item{Oferuje elastyczne i wydajne solvery do programowania matematycznego liniowego, całkowitoliczbowego, kwadratowego}
+\item{Udostępnia biblioteki oraz API dla wielu języków programowania: Java, C\#, C++, C, Python}
+\item{Umożliwia zastosowanie w środowisku Excel i Matlab oraz posiada własne dedykowane środowisko CPLEX Studio IDE}
+
+\end{itemize}
+
+\end{frame}
+
+
+\section{Budowa systemu}
+
+\begin{frame}{Budowa systemu}
+\begin{block}{Arkusz programu excel z makrami}
+Arkusz umożliwiający modyfikację danych grafiku. Posiada makra wykonujące program i wczytujące wyniki do nowego arkusza.
+\end{block}
+\begin{block}{Obsługa plików}
+Klasy wczytujące i zapisujące dane do pliku csv.  
+\end{block}
+\begin{block}{Model danych}
+Model przechowujący dane o grafiku i pracowników. 
+\end{block}
+\begin{block}{CPLEXBuilder}
+Klasa wykorzystująca API CPLEX-a. Tworzy model optymalizacyjny z celem i ograniczeniami. Generowanie wyników.
+\end{block}
+\begin{block}{CPLEX}
+Moduł CPLEX-a w postaci pliku JAR.
+\end{block}
+\end{frame}
+
+\section{Materiały}
+
+\begin{frame}{Materiały}
+\begin{block}{Git}
+https://github.com/Yamadads/Employee-Scheduler
+\end{block}
+\begin{block}{Wykorzystane artykuły}
+\begin{itemize}
+    \item {The staff scheduling problem: a general
+model and applications,
+Marta Soares Ferreira da Silva Rocha, 2013}
+    \item{Metody zarządzania zasobami na przykładzie służby zdrowia
+Justyna Uziałko,
+Edward Radosiński, 2009}
+    \item{Metoda komputerowego wspomagania wyznaczania harmonogramów pracy pojazdów trakcyjnych,
+Tomasz Ambroziak, Renata Piętka, 2008}
+    \item{IBM ILOG CPLEX Optimization Studio
+Getting Started with Scheduling in CPLEX Studio}
+\end{itemize}
+
+\end{block}
+
+\end{frame}
+
+\begin{frame}{Koniec}
+\begin{center}
+Dziękuję za uwagę :)
+\end{center}
+\end{frame}
+
+\end{document}
+
+

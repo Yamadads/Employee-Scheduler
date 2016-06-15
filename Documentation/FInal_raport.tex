@@ -1,0 +1,124 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+
+\title{Automatyczne generowanie grafiku pracy}
+\author{Sebastian Pawlak \\ 117269 \\ Informatyka w Medycynie}
+
+\date{15 czerwca 2016}
+
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{natbib}
+\usepackage{graphicx}
+\usepackage[OT4]{polski}
+\usepackage[utf8]{inputenc} 
+\usepackage{indentfirst}
+\frenchspacing
+
+\begin{document}
+
+\maketitle
+\newpage
+\section{Opis problemu}
+
+    Problem harmonogramowania pracy pielęgniarek jest bardzo znanym problemem optymalizacyjnym. Celem jest przypisanie pielęgniarek do odpowiednich zmian w odpowiednie dni przy uwzględnieniu wielu zarówno twardych jak i miękkich ograniczeń. Przypisanie powinno spełniać jak najwięcej preferencji poszczególnych pielęgniarek. \par
+    Tworzeniem grafiku pracy najczęściej na cały miesiąc dla oddziału zajmuje się jedna osoba, której bez odpowiedniego oprogramowania zajmuje to długi czas. Grafik pracy musi spełniać wiele obostrzeń wynikających z kodeksu pracy takich jak: godzinowa, dzienna norma czasu pracy, minimalny czas odpoczynku pomiędzy zmianami, minimalny czas nieprzerwanego odpoczynku w danym tygodniu, maksymalna liczba dni pracujących itd. W polskich warunkach dodatkowym utrudnieniem jest, że norma dziennej pracy pielęgniarki wynosi 7 godzin 35 minut. W połączeniu z dwunastogodzinnymi dyżurami sprawia to, że ciężko jest dobrze rozpisać zmiany. 
+
+\section{Projekt}
+    Projekt zakłada stworzenie systemu, który odciąża człowieka od konieczności ręcznego tworzenia grafiku pracy. Użytkownik ma tylko podać parametry, które musi spełniać harmonogram oraz wszyscy pracownicy. Do tego może również podać listę preferencji pracowników odnoście poszczególnych zmian. Pracownik decyduje, które dni/zmiany chce przyjść do pracy, a które nie. \\
+    Początkowo projekt zakładał stworzenie biblioteki w języku Java, która mogłaby być wykorzystywana w innych programach. Miało być tylko stworzone API, z którego zewnętrzne programy mogłyby korzystać przy generowaniu grafiku. Udało się tego dokonać. Dodatkowo jednak stworzony został interfejs użytkownika oparty o pliki .csv oraz arkusz programu Excel. Stwarza to możliwość korzystania z oprogramowania przez zwykłego użytkownika przy pomocy prostego znanego interfejsu.
+\newpage
+\section{Zapis problemu}
+     Do zapisania problemu użyto trójwymiarowej macierzy, w której poszczególne wymiary oznaczają dzień, zmianę i pracownika. Na takiej reprezentacji problemu względnie łatwo było zakładać ograniczenia oraz budować funkcję celu. Projekt z założenia zakłada rozliczanie czasu pracy co do minuty. Znacznie utrudnia to obliczenia i dokłada wiele parametrów. Uproszczony zapis matematyczny problemu mógłby wyglądać tak jak poniżej.\\
+\\
+  \begin{math} 
+  min(max(((\sum_{d}^{ }\sum_{z}^{ }a_{dz0})-t_{0}),\\((\sum_{d}^{ }\sum_{z}^{ }a_{dz1})-t_{1}), ... , ((\sum_{d}^{ }\sum_{z}^{ }a_{dzp})-t_{p})))
+  \end{math}
+  \\ \\Przy ograniczeniach:\\
+  \begin{math} 
+  \forall_{p}(\sum_{d}^{ }\sum_{z}^{ }a_{dzp})\geqslant mindays
+  \end{math}
+  \\
+  \begin{math} 
+  \forall_{p}(\sum_{d}^{ }\sum_{z}^{ }a_{dzp})\leqslant maxdays
+  \end{math}
+  \\
+  \begin{math} 
+  \forall_{d}(\sum_{z}^{ }\sum_{p}^{ }a_{dzp})\geqslant minemployees
+  \end{math}
+  \\
+  \begin{math} 
+  \forall_{d}(\sum_{z}^{ }\sum_{p}^{ }a_{dzp})\leqslant maxemployees
+  \end{math}
+  \\
+  \begin{math} 
+  \forall_{d}\forall_{p}(\sum_{z}^{ }a_{dzp})\leqslant 1
+  \end{math}
+\\\\
+Są tu tylko ograniczenia na minimalną i maksymalną liczbę dni które ma przepracować pracownik oraz minimalną i maksymalną liczbę pracowników na zmianę. Pokazuje to jak dużo ograniczeń jest nakładanych na rozwiązanie, a jest to tylko mała część. 
+
+\section{Wybrane technologie}
+
+\subsection{Java}
+Uniwersalny język programowania. Otwarte środowisko umożliwiające uruchomienie na wielu platformach sprzętowych. 
+
+\subsection{CPLEX}
+Pakiet do tworzenia modeli optymalizacyjnych na potrzeby programowania matematycznego i programowania z ograniczeniami
+
+\subsection{CSV}
+Prosty format pliku, łatwy do generowania i wczytywania przez program jak i przez Excela. 
+
+\subsection{Excel}
+Znane użytkownikowi środowisko. Pozwoli bez problemów nowemu użytkownikowi korzystać z oprogramowania. 
+
+\section{CPLEX}
+
+CPLEX jest komercyjnym oprogramowaniem wydawanym przez firmę IBM. Jest to najlepsze tego typu oprogramowanie na rynku. Oferuje elastyczne i wydajne solvery do programowania matematycznego liniowego, całkowitoliczbowego, kwadratowego. Udostępnia biblioteki oraz API dla wielu języków programowania: Java, C\#, C++, C, Python. Umożliwia zastosowanie w środowisku Excel i Matlab oraz posiada własne dedykowane środowisko CPLEX Studio IDE. Posiada bogatą dobrą dokumentację. API udostępniane programistom jest względnie przystępne w porównaniu do innych przetestowanych (Jacop, OptimJ, Ip\_solve). \par
+W projekcie użyto oprogramowania CPLEX w wersji studenckiej, które nakłada ograniczenie na instancję problemu do 500 pól. Rozmiar ten jest przekraczany przy generowaniu grafiku już dla ponad 15 dni i kilku pracowników przez co przetestowanie działania dla większych instancji było niemożliwe. Program generował gotowe rozwiązania w nie całą sekundę, co oznacza praktycznie natychmiastowy wynik. Jak widać CPLEX jest wydajnym solverem, jednak wymaga kupienia licencji komercyjnej.
+
+\section{Budowa systemu}
+
+System składa się z kilku warstw, które współpracują ze sobą ściśle wspomagając użytkownika w tworzeniu grafiku pracy. 
+\subsection{Arkusz programu excel z makrami}
+Jest to prosty arkusz programu excel umożliwiający modyfikację danych grafiku. Posiada makra, które generują plik csv z wyedytowanymi przez użytkownika danymi koniecznymi do stworzenia grafiku. Następnie plik ten jest przetwarzany przez program w javie, który generuje gotowy harmonogram do innego pliku csv. Ten plik jest następnie otwierany w nowym oknie Excela. 
+
+\subsection{Obsługa plików}
+Klasy wczytujące i zapisujące dane do pliku csv. Generowanie jest proste i szybkie oraz daje duże możliwości. 
+
+\subsection{Model danych}
+Model przechowujący dane o grafiku i pracowników. Są to klasy w programie przechowujące wszystkie informacje potrzebne do generowania grafiku. Projekt zakłada, że te dane są dostępne dla programistów, którzy włączą je do swojego systemu.  
+
+\subsection{CPLEXBuilder}
+Klasa wykorzystująca API CPLEX-a. Tworzy ona model optymalizacyjny z celem i ograniczeniami oraz generuje wyniki i wpisuje je do odpowiednich obiektów, z których następnie można korzystać we własnym programie, lub wypisuje wynik do pliku przez warstwę obsługi plików. 
+
+\subsection{CPLEX}
+Moduł CPLEX-a w postaci prostego pliku JAR liczącego zaledwie 2,5 MB. Jak na ogrom dostarczanej funkcjonalności jest to bardzo mało. 
+\section{Materiały}
+
+\subsection{Git}
+Projekt znajduje się na publicznym repozytorium w serwisie github.
+\\https://github.com/Yamadads/Employee-Scheduler
+
+\subsection{Wykorzystane artykuły}
+Materiały wykorzystane przy przygotowaniu merytorycznym do rozwiązania problemu:
+\begin{itemize}
+    \item {The staff scheduling problem: a general
+model and applications,
+Marta Soares Ferreira da Silva Rocha, 2013}
+    \item{Metody zarządzania zasobami na przykładzie służby zdrowia
+Justyna Uziałko,
+Edward Radosiński, 2009}
+    \item{Metoda komputerowego wspomagania wyznaczania harmonogramów pracy pojazdów trakcyjnych,
+Tomasz Ambroziak, Renata Piętka, 2008}
+    \item{IBM ILOG CPLEX Optimization Studio
+Getting Started with Scheduling in CPLEX Studio}
+\end{itemize}
+
+
+Przy tworzeniu ograniczeń dla modelu wykorzystano również informacje zawarte w Kodeksie Pracy.
+
+\section{Uruchomienie}
+Projekt najlepiej pobrać z wyżej wymienionego linku z GitHub-a.
+W katalogu excelGUI znajdują się wszystkie elementy potrzebne do uruchomienia systemu. Uruchamiamy arkusz ScheduleProgram.xlsm i możemy się cieszyć z działającego systemu. \\
+Programu w Javie edytowany był w IntelliJ IDEA Community Edition. Najlepiej zaimportować projekt do tego środowiska i cieszyć się możliwością edycji programu. 
+\end{document}
